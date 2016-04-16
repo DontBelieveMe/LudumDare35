@@ -6,23 +6,28 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class LudumDare35 extends BasicGame{
+import com.ld35.managers.GameManager;
+import com.ld35.managers.GameObjectManager;
 
+public class LudumDare35 extends BasicGame{
+	
+	private GameManager gameManager;
+	
 	public LudumDare35(String title) {
 		super(title);
 
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		
+		GameObjectManager.instance.draw(g);
 	}
 
 	public void init(GameContainer gc) throws SlickException {
-		
+		gameManager = new GameManager();
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
-		
+		GameObjectManager.instance.tick(gc, delta);
 	}
 	
 	public static void main(String args []) {
