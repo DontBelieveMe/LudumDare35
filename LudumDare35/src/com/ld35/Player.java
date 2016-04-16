@@ -7,7 +7,9 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.engine.GameObject;
+import com.ld35.engine.Tile;
 import com.ld35.managers.GameObjectManager;
+import com.ld35.managers.LevelManager;
 
 public class Player extends GameObject {
 	public enum Direction {
@@ -16,8 +18,8 @@ public class Player extends GameObject {
 
 	private Vector2f velocity;
 
-	private float speed = 0.9f;
-	private float jumpSpeed = 0.5f;
+	private float speed = 0.4f;
+	private float jumpSpeed = 0.55f;
 	private float gravity = 0.001f;
 	private boolean canJump = true, inAir = false;
 

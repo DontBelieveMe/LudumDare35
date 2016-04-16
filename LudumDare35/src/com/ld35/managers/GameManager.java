@@ -10,12 +10,13 @@ public class GameManager {
 	@SuppressWarnings("unused")
 	private Player player;
 	
-	private LevelManager levelManager;
+	public static LevelManager levelManager;
 	
 	public GameManager() {
 		player = new Player(new Vector2f(0, 480-32));
 		
 		levelManager = new LevelManager();
+		System.out.println(LevelManager.getCurrentLevel().getTileId(14, 15, 1).getPosition());
 	}
 	
 	public void tick(GameContainer gc, int delta) {

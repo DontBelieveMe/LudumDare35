@@ -12,6 +12,10 @@ public class LevelManager {
 	
 	private int index;
 	
+	public static Level getCurrentLevel() {
+		int index = GameManager.levelManager.getLevelIndex();
+		return GameManager.levelManager.getLevels()[index];
+	}
 	
 	public LevelManager() {
 		this.index = 0;
@@ -36,4 +40,13 @@ public class LevelManager {
 	public void tick(GameContainer gc, int delta) {
 		levels[index].tick(gc, delta);
 	}
+	
+	public Level [] getLevels() {
+		return levels;
+	}
+	
+	public int getLevelIndex() {
+		return index;
+	}
+	
 }
