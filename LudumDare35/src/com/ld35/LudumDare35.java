@@ -10,15 +10,14 @@ import com.ld35.managers.GameManager;
 import com.ld35.managers.GameObjectManager;
 
 public class LudumDare35 extends BasicGame{
-	
 	private GameManager gameManager;
 	
 	public LudumDare35(String title) {
 		super(title);
-
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		gameManager.render(g);
 		GameObjectManager.instance.draw(g);
 	}
 
@@ -27,6 +26,7 @@ public class LudumDare35 extends BasicGame{
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
+		gameManager.tick(gc, delta);
 		GameObjectManager.instance.tick(gc, delta);
 	}
 	

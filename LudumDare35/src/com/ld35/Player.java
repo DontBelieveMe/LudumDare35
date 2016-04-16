@@ -10,8 +10,19 @@ import com.ld35.engine.GameObject;
 import com.ld35.managers.GameObjectManager;
 
 public class Player extends GameObject {
+	public enum Direction {
+		LEFT, RIGHT, STOPPED
+	}
+	
 	private Vector2f velocity;
 	private Vector2f acceleration;
+	
+	private float speed = 0.9f;
+
+	private boolean onGround;
+	private boolean jumping;
+	
+	private Direction direction = Direction.STOPPED;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -21,46 +32,45 @@ public class Player extends GameObject {
 		
 		GameObjectManager.submit(this);
 	}
-	float dx = 0.001f;
-	boolean canJump = true, onGround = true;
+	
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
-		
-		if(onGround) {
-			velocity.x *= 0.9f;
-
-			if(input.isKeyPressed(Input.KEY_SPACE)) {
-				if(canJump) {
-					System.out.println("HEllo World!");
-					velocity.y = -0.1f;
-					canJump = false;
-				}
-			}
+		if(input.isKeyDown(Input.KEY_D)) {
+			velocity.x = speed;
+			direction = Direction.RIGHT;
+		} else if(input.isKeyDown(Input.KEY_A)) {
+			velocity.x = -speed;
+			direction = Direction.LEFT;
 		} else {
-			canJump = true;
-		}
-		
-		if(!onGround) {
-			velocity.y += 0.01f;
-		}
-		
-		if(!onGround && velocity.y > 0) {
-			velocity.y -= 1f;
+			velocity.x = 0;
+			direction = Direction.STOPPED;
 		}
 		
 		position.x += velocity.x * delta;
-		position.y += velocity.y * delta;
-		
-		if(position.y + 32 > 480) {
-			position.y = 480-32-1;
-			velocity.y = 0;
-			onGround = true;
-		}
-		
 	}
 
 	public void draw(Graphics g) {
 		g.setColor(Color.red);
 		g.fillRect(position.x, position.y, 32, 32);
+	}
+	
+	public Vector2f getVelocity() {
+		return velocity;
+	}
+
+	public Vector2f getAcceleration() {
+		return acceleration;
+	}
+
+	public boolean isOnGround() {
+		return onGround;
+	}
+
+	public boolean isJumping() {
+		return jumping;
+	}
+	
+	public Direction getDirection() {
+		return direction;
 	}
 }
