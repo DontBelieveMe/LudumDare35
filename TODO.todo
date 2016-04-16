@@ -1,0 +1,23 @@
+Ludum Dare 35:
+TOOD:
+  Coding:
+    ☐ Loading Levels
+    ☐ Scrolling Levels
+    ☐ Player Movement
+      ☐ Jumping
+      ☐ Walking
+    ☐ GUI
+      ☐ Menus
+        ☐ Pause Menu
+        ☐ Main Menu
+      ☐ HUD
+        ☐ Health
+        ☐ Stamina
+    ☐ Changing between character forms @critical
+      ☐ Using Amulets to do so
+      ☐ Using spells to do do
+        ☐ Spells have a time limit
+
+   Art:
+     ☐ Player Forms
+     ☐ Levels
