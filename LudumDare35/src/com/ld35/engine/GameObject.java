@@ -21,6 +21,10 @@ public abstract class GameObject {
 		return position;
 	}
 	
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+	
 	public boolean hasPhysics() {
 		return hasPhysics();
 	}
@@ -31,4 +35,5 @@ public abstract class GameObject {
 	
 	public abstract void tick(GameContainer gc, int delta);
 	public abstract void draw(Graphics g);
+
 }

@@ -3,21 +3,42 @@ package com.ld35;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 
+import com.ld35.Player.Direction;
+
 public class Camera {
 	private Vector2f position;
-	
-	@SuppressWarnings("unused")
 	private Vector2f velocity;
 	
 	public Camera(float x, float y) {
-		this.position = new Vector2f(position.x, position.y);
+		this.position = new Vector2f(x, y);
 		this.velocity = new Vector2f(0, 0);
 	}
 	
-	public void tick(GameContainer gc, int delta) {
+	public void tick(GameContainer gc, int delta, Player player) {
+		moveIfNessersary(player);
+	
+		this.position.x += velocity.x * delta;
 	}
 	
-	public void move() {
+	public void moveIfNessersary(Player player) {
+		Vector2f playerPosition = player.getPosition();
+		float offset = 64;
 		
+		if(playerPosition.x > (this.position.x + 480 - offset)) {
+			velocity.x = 0.2f;
+		} else if(playerPosition.x < this.position.x + offset 
+				&& player.getDirection() == Direction.LEFT) {
+			velocity.x = -0.2f;
+		} else {
+			velocity.x = 0;
+		}
+	}
+	
+	public Vector2f getPosition() {
+		return position;
+	}
+
+	public Vector2f getVelocity() {
+		return velocity;
 	}
 }
