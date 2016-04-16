@@ -169,7 +169,7 @@ public class Player extends GameObject {
 	private void jump() {
 		if (canJump) {
 			velocity.y = -jumpSpeed;
-			canJump = true;
+			canJump = false;
 			inAir = true;
 		}
 	}
@@ -199,25 +199,26 @@ public class Player extends GameObject {
 				boolean yCollision = (position.y < tilePos.y + 32
 						- collisionOffset)
 						&& (position.y + 32 > tilePos.y + collisionOffset);
-				
-				
-				switch(state) {
+
+				switch (state) {
 				case HUMAN:
-					break;
-				case BIRD:
-					break;
-				}
-				
-				if (platformTile.isSolid()) {
-					if(!platformTile.collidesWith(PlayerState.BIRD) && state != PlayerState.BIRD) {
+					if (platformTile.collidesWith(PlayerState.HUMAN)
+							|| platformTile.isSolid()) {
 						if (xCollision && yCollision) {
 							collision = true;
 						}
 					}
-				}
-
-				if (platformTile.isSolid()) {
-
+					break;
+				case BIRD:
+					if (platformTile.collidesWith(PlayerState.BIRD)
+							|| platformTile.isSolid()) {
+						if (xCollision && yCollision) {
+							collision = true;
+						}
+					}
+					break;
+				default:
+					break;
 				}
 
 			}

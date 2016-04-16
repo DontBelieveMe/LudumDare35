@@ -38,7 +38,7 @@
   <tile id="8">
    <properties>
     <property name="collidesWith" value="bird"/>
-    <property name="isSolid" value="true"/>
+    <property name="isSolid" value="false"/>
    </properties>
   </tile>
   <tile id="12">
@@ -64,7 +64,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFqqKM2GGz20to9jgzUtcMVao4vCfZSA1ArXblSYK8nGkYPW2rGLzH6YtHUEYoTatmLrg6XenR59PDDFZaUug/d3lAKzSNFHTEAlodItZec8EI3YyDLZ2qZh8s/tMYADdx8XQgHAAA=
+   H4sIAAAAAAAAC2NgIB44ImFqqKM2GGz20to9jmjYE4rJBa5Qc3xJsJcagFrpypUCez3RMHrYYlNHbjgQoy8WTR2hOKGWvejqiA0ffO6jZrmBbm8oFreRGj/UTM+wPESqveSmK1zplFg91ALUMg+Xf2iNAeKjL28IBwAA
   </data>
  </layer>
 </map>
