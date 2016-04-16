@@ -196,9 +196,14 @@ public class Player extends GameObject {
 						- collisionOffset)
 						&& (position.x + 32 > tilePos.x + collisionOffset);
 
-				boolean yCollision = (position.y < tilePos.y + 32
-						- collisionOffset)
-						&& (position.y + 32 > tilePos.y + collisionOffset);
+				boolean yCollision;
+				if (state != PlayerState.BIRD) {
+					yCollision = (position.y < tilePos.y + 32 - collisionOffset)
+							&& (position.y + 32 > tilePos.y + collisionOffset);
+				} else {
+					yCollision = (position.y < tilePos.y - collisionOffset)
+							&& (position.y + 32 > tilePos.y + collisionOffset);	
+				}
 
 				switch (state) {
 				case HUMAN:

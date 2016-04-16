@@ -17,7 +17,7 @@ public class Tile {
 
 		if (collidesWith.equalsIgnoreCase("bird"))
 			this.collidesWith = PlayerState.BIRD;
-		
+
 		System.out.println(this.collidesWith);
 	}
 
@@ -32,7 +32,7 @@ public class Tile {
 	public Vector2f getPosition() {
 		return position;
 	}
-	
+
 	public boolean collidesWith(PlayerState state) {
 		return collidesWith == state;
 	}
