@@ -1,11 +1,11 @@
 Ludum Dare 35:
 TOOD:
   Coding:
-    ☐ Loading Levels
+    ✔ Loading Levels @done (16-04-16 11:07)
     ☐ Scrolling Levels
     ☐ Player Movement
-      ☐ Jumping
-      ☐ Walking
+      ✔ Jumping @done (16-04-16 11:17)
+      ✔ Walking @done (16-04-16 11:07)
     ☐ Player animations
       ☐ Walking
       ☐ Jumping
@@ -21,8 +21,11 @@ TOOD:
       ☐ Using spells to do do
         ☐ Spells have a time limit
     ☐ Inventory
+    ✔ Collision detection @done (16-04-16 14:49)
+    ☐ Platforming mechanics
+      ✔ Jumping @done (16-04-16 14:50)
 
-   Art:
+   Art:w
      ☐ Player Forms
      ☐ Levels
        ☐ Level Art
@@ -31,7 +34,18 @@ TOOD:
        ☐ Talismans
        ☐ Spells
      Tiles
-       ☐ Wall (Stone)
+       ✔ Wall (Stone)  @done (16-04-16 11:24)
+         ☐ Wall Edges
+         ☐ Wall variations
+         ☐ Wall Tops
+         ☐ Wall curves
+         ☐ Wall dectorations
        ☐ Grass
        ☐ Ground (Stone)
-       ☐ Generic stone tile
+       ✔ Generic stone tile @done (16-04-16 10:59)
+
+ 
+   Issues/Tweaks/Notes:
+     ✔ Player should only be able to jump once @done (16-04-16 11:36)
+     ☐ Wall Collisions offset (BUG!) @high
+     ☐ If you jumping upwards into the wall the playing stays in the wall temporarily

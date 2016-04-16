@@ -19,9 +19,11 @@ public class Player extends GameObject {
 	private Vector2f velocity;
 
 	private float speed = 0.4f;
-	private float jumpSpeed = 0.55f;
-	private float gravity = 0.001f;
+	private float jumpSpeed = 1.6f;
+	private float gravity = 0.01f;
 	private boolean canJump = true, inAir = false;
+
+	private final float collisionOffset = 3;
 
 	private Direction direction = Direction.STOPPED;
 
@@ -50,30 +52,26 @@ public class Player extends GameObject {
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			jump();
 		}
-		
+
 		float oldPositionX = position.x;
 		position.x += velocity.x * delta;
-				
-		if(isCollision()) {
-			position.x = oldPositionX;
-		}
 		
+		checkXCollisions(oldPositionX);
+
 		float oldPositionY = position.y;
 		position.y += velocity.y * delta;
+
+		if (velocity.y > 0.5f)
+			velocity.y = 0.5f;
 		
-		if(isCollision()) {
-			position.y = oldPositionY;
-			if(velocity.y > 0) {
-				canJump = true;
-				inAir = false;
-			} else {
-				inAir = true;
-			}
-		}
+		checkYCollisions(oldPositionY);
+		
 
 		if (inAir) {
 			velocity.y += gravity * delta;
+			direction = Direction.DOWN;
 		}
+		
 		if (position.y >= 480 - 32) {
 			position.y = 480 - 32;
 			inAir = false;
@@ -81,28 +79,22 @@ public class Player extends GameObject {
 		}
 
 	}
-	
-	private boolean isCollision() {
-		boolean collision = false;
-		
-		for (int x = 0; x < 20; x++) {
-			for (int y = 0; y < 15; y++) {
-				Tile platformTile = LevelManager.getCurrentLevel().getTileId(x,
-						y, 1);
-		
-				Vector2f tilePos = platformTile.getPosition();
-				tilePos.x *= 32;
-				tilePos.y = tilePos.y * 32;
-		
-				if(platformTile.isSolid()) {
-					boolean xCollision = (position.x < tilePos.x+32) && (position.x + 32 > tilePos.x);
-					boolean yCollision = (position.y < tilePos.y+32) && (position.y + 32 > tilePos.y);
-					if(xCollision&&yCollision)
-						collision=true;
-				}
+
+	private void checkYCollisions(float oldY) {
+		if (isCollision()) {
+			if (velocity.y > 0) {
+				canJump = true;
+				inAir = false;
 			}
+			position.y = oldY;
 		}
-		return collision;
+	}
+	
+	private void checkXCollisions(float oldX) {
+		if (isCollision()) {
+			position.x = oldX;
+		}
+
 	}
 	
 	private void jump() {
@@ -110,13 +102,42 @@ public class Player extends GameObject {
 			velocity.y = -jumpSpeed;
 			canJump = false;
 			inAir = true;
+			direction = Direction.UP;
 		}
+	}
+
+	private boolean isCollision() {
+		boolean collision = false;
+
+		for (int x = 0; x < 20; x++) {
+			for (int y = 0; y < 15; y++) {
+				Tile platformTile = LevelManager.getCurrentLevel().getTileId(x,
+						y, 1);
+
+				Vector2f tilePos = platformTile.getPosition();
+				tilePos.x *= 32;
+				tilePos.y *= 32;
+
+				if (platformTile.isSolid()) {
+					boolean xCollision = (position.x < tilePos.x + 32 - collisionOffset)
+										&& (position.x + 32 > tilePos.x + collisionOffset);
+					
+					boolean yCollision = (position.y < tilePos.y + 32 - collisionOffset)
+										&& (position.y + 32 > tilePos.y + collisionOffset);
+					if (xCollision && yCollision) {
+						collision = true;
+					}
+				}
+			}
+		}
+		
+		return collision;
 	}
 
 	public void draw(Graphics g) {
 		g.setColor(Color.red);
-		
-		if(isCollision())
+
+		if (isCollision())
 			g.setColor(Color.blue);
 		g.fillRect(position.x, position.y, 32, 32);
 	}
