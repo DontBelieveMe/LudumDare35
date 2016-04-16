@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.ld35.Player;
 
 public class GameManager {
+	@SuppressWarnings("unused")
 	private Player player;
 	
 	private LevelManager levelManager;

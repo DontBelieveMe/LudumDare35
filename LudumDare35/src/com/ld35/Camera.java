@@ -5,6 +5,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class Camera {
 	private Vector2f position;
+	
+	@SuppressWarnings("unused")
 	private Vector2f velocity;
 	
 	public Camera(float x, float y) {
