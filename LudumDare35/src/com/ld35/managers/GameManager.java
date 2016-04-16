@@ -8,7 +8,7 @@ public class GameManager {
 	private Player player;
 	
 	public GameManager() {
-		player = new Player(new Vector2f(0, 0));
+		player = new Player(new Vector2f(0, 480-32));
 	}
 	
 	
