@@ -20,6 +20,7 @@ public class GameManager {
 	
 	public void tick(GameContainer gc, int delta) {
 		levelManager.tick(gc, delta);
+	
 	}
 	
 	public void render(Graphics g) {

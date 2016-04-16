@@ -35,6 +35,7 @@ public class LudumDare35 extends BasicGame{
 			AppGameContainer app = new AppGameContainer(new LudumDare35("Ludum Dare 35"));
 			app.setDisplayMode(640, 480, false);
 			app.setVerbose(false);
+			app.setTargetFrameRate(60);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

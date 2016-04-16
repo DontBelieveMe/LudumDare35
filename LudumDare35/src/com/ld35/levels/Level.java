@@ -4,8 +4,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+import com.ld35.engine.Tile;
+
 public abstract class Level {
-	private TiledMap map;
+	protected TiledMap map;
 	
 	public Level(String path) {
 		try {
@@ -24,4 +26,11 @@ public abstract class Level {
 	}
 	
 	public abstract void tick(GameContainer gc, int delta);
+	
+	public Tile getTileId(int x, int y, int tileLayer) {
+		int id = map.getTileId(x, y, tileLayer);
+		String solid = map.getTileProperty(id, "isSolid", "not-set");
+		boolean isSolid = Boolean.parseBoolean(solid);
+		return new Tile(id, isSolid);
+	}
 }
