@@ -30,7 +30,6 @@ public abstract class Level {
 	
 	public Tile getTileId(int x, int y, int tileLayer) {
 		int id = map.getTileId(x, y, tileLayer);
-		System.out.println(id);
 		String solid = map.getTileProperty(id, "isSolid", "not-set");
 		boolean isSolid = Boolean.parseBoolean(solid);
 		return new Tile(id, isSolid, new Vector2f(x, y));

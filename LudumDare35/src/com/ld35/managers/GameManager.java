@@ -16,7 +16,6 @@ public class GameManager {
 		player = new Player(new Vector2f(0, 480-32));
 		
 		levelManager = new LevelManager();
-		System.out.println(LevelManager.getCurrentLevel().getTileId(14, 15, 1).getPosition());
 	}
 	
 	public void tick(GameContainer gc, int delta) {

@@ -13,7 +13,7 @@ import com.ld35.managers.LevelManager;
 
 public class Player extends GameObject {
 	public enum Direction {
-		LEFT, RIGHT, STOPPED
+		LEFT, RIGHT, STOPPED, UP, DOWN
 	}
 
 	private Vector2f velocity;
@@ -35,7 +35,7 @@ public class Player extends GameObject {
 
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
-		
+
 		if (input.isKeyDown(Input.KEY_D)) {
 			velocity.x = speed;
 			direction = Direction.RIGHT;
@@ -50,21 +50,61 @@ public class Player extends GameObject {
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			jump();
 		}
-
+		
+		float oldPositionX = position.x;
 		position.x += velocity.x * delta;
+				
+		if(isCollision()) {
+			position.x = oldPositionX;
+		}
+		
+		float oldPositionY = position.y;
 		position.y += velocity.y * delta;
+		
+		if(isCollision()) {
+			position.y = oldPositionY;
+			if(velocity.y > 0) {
+				canJump = true;
+				inAir = false;
+			} else {
+				inAir = true;
+			}
+		}
 
 		if (inAir) {
 			velocity.y += gravity * delta;
 		}
-
 		if (position.y >= 480 - 32) {
 			position.y = 480 - 32;
 			inAir = false;
 			canJump = true;
 		}
-	}
 
+	}
+	
+	private boolean isCollision() {
+		boolean collision = false;
+		
+		for (int x = 0; x < 20; x++) {
+			for (int y = 0; y < 15; y++) {
+				Tile platformTile = LevelManager.getCurrentLevel().getTileId(x,
+						y, 1);
+		
+				Vector2f tilePos = platformTile.getPosition();
+				tilePos.x *= 32;
+				tilePos.y = tilePos.y * 32;
+		
+				if(platformTile.isSolid()) {
+					boolean xCollision = (position.x < tilePos.x+32) && (position.x + 32 > tilePos.x);
+					boolean yCollision = (position.y < tilePos.y+32) && (position.y + 32 > tilePos.y);
+					if(xCollision&&yCollision)
+						collision=true;
+				}
+			}
+		}
+		return collision;
+	}
+	
 	private void jump() {
 		if (canJump) {
 			velocity.y = -jumpSpeed;
@@ -75,6 +115,9 @@ public class Player extends GameObject {
 
 	public void draw(Graphics g) {
 		g.setColor(Color.red);
+		
+		if(isCollision())
+			g.setColor(Color.blue);
 		g.fillRect(position.x, position.y, 32, 32);
 	}
 
