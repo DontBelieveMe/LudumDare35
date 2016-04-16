@@ -2,55 +2,56 @@ Ludum Dare 35:
 TOOD:
   Coding:
     ✔ Loading Levels @done (16-04-16 11:07)
-    ☐ Scrolling Levels
+    ✔ Scrolling Levels @done (16-04-16 19:16)
     ✔ Player Movement @done (16-04-16 15:26)
       ✔ Jumping @done (16-04-16 11:17)
       ✔ Walking @done (16-04-16 11:07)
-    ☐ Player animations
-      ☐ Walking
-      ☐ Jumping
-    ☐ GUI
-      ☐ Menus
-        ☐ Pause Menu
-        ☐ Main Menu
-      ☐ HUD
-        ☐ Health
-        ☐ Stamina
-    ☐ Changing between character forms @critical
-      ☐ Using Amulets to do so
-      ☐ Using spells to do do
-        ☐ Spells have a time limit
-    ☐ Inventory
+
+    ☐ Player animations @today
+      ☐ Walking @today
+      ☐ Jumping @today
+      ☐ Flying @today
+      ☐ Idle @today
+
+    ☐ GUI @today
+      ☐ Menus @today
+        ☐ Pause Menu @today
+        ☐ Main Menu @today
+      ☐ HUD @today
+        ☐ Health @today
+        ☐ Stamina @today
+
+    ✔ Changing between character forms @critical @done (16-04-16 20:25)
     ✔ Collision detection @done (16-04-16 14:49)
     ✔ Platforming mechanics @done (16-04-16 15:27)
       ✔ Jumping @done (16-04-16 14:50)
+    ✔ State Specific Collisions  @done (16-04-16 21:09)
 
    Art:
-     ☐ Player Forms
-     ☐ Levels
-       ☐ Level Art
-     
-     Objects
-       ☐ Talismans
-       ☐ Spells
+     ☐ Player Forms @today
+       ☐ Bird @today
+         ☐ Animation @today
+       ☐ Human @today
+         ☐ Animation @today
+     ☐ Level design tq
+
      Tiles
        ✔ Wall (Stone)  @done (16-04-16 11:24)
-         ☐ Wall Edges
-         ☐ Wall variations
-         ☐ Wall Tops
-         ☐ Wall curves
-         ☐ Wall dectorations
-       ☐ Grass
-       ☐ Ground (Stone)
+         ☐ Wall variations @low
+         ✔ Wall curves @done (16-04-16 21:25)
+         ☐ Wall dectorations @low
+       ☐ Grass @low
+       ✔ Ground (Stone)  @done (16-04-16 21:26)
        ✔ Generic stone tile @done (16-04-16 10:59)
    
    Sound:
-     ☐ Soundtrack/music
-     ☐ Sound effects
+     ☐ Soundtrack/music @today
+     ☐ Sound effects @today
  
    Issues/Tweaks/Notes:
      ✔ Player should only be able to jump once @done (16-04-16 11:36)
-     ☐ Wall Collisions offset (BUG!) @high
-     ☐ If you jumping upwards into the wall the player stays in the wall temporarily
-     ☐ Sometimes you are not touching the walls when colliding with it
-       - Small offset
+     ✔ Wall Collisions offset (BUG!) @high  @done (16-04-16 16:11)
+     ☐ If you jumping upwards into the wall the player stays in the wall temporarily @low
+     ✔ Sometimes you are not touching the walls when colliding with it @done (16-04-16 21:19)
+     ☐ Bird form hovers above ground slightly @low @today
+     ☐ Bird goes through walls @critical @today
