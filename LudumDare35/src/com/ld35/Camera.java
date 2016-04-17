@@ -28,12 +28,11 @@ public class Camera {
 		float offset = 64;
 		Level level = LevelManager.getCurrentLevel();
 		
-		
 		if (playerPosition.x > (this.position.x + 480 - offset)) {
-			velocity.x = 0.2f;
+			velocity.x = 0.4f;
 		} else if (playerPosition.x < this.position.x + offset
 				&& player.getDirection() == Direction.LEFT) {
-			velocity.x = -0.2f;
+			velocity.x = -0.4f;
 		} else {
 			velocity.x = 0;
 		}

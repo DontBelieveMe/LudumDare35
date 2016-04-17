@@ -10,6 +10,8 @@ public class AudioManager {
 	public static Sound nextLevel;
 	public static Sound select;
 	
+	private final static float VOLUME = 0.03f;
+	
 	public static void create() {
 		try {
 			jump = new Sound("/res/jump.wav");
@@ -24,7 +26,7 @@ public class AudioManager {
 	
 	public static void playOnce(Sound sound) {
 		if(!sound.playing()) {
-			sound.play();
+			sound.play(1f, VOLUME);
 		}
 	}
 }

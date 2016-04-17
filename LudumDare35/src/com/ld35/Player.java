@@ -71,7 +71,7 @@ public class Player extends GameObject {
 		platformHealthTick += delta;
 		regenerationTick += delta;
 		Input input = gc.getInput();
-		if (input.isKeyPressed(Input.KEY_1)) {
+		if (input.isKeyPressed(Input.KEY_Q)) {
 			AudioManager.playOnce(AudioManager.shift);
 			if(state == PlayerState.HUMAN) {
 				state = PlayerState.BIRD;
@@ -107,6 +107,15 @@ public class Player extends GameObject {
 		if (health <= 0) {
 			health = 0;
 			dead = true;
+		}
+		
+		Camera camera = LudumDare35.gameManager.getCamera();
+		Vector2f camPos = camera.getPosition();
+		if (position.x > (camPos.x + 480 - 64)) {
+		//	position.x = camPos.x + 480 - 64;
+		} else if (position.x < camPos.x + 64
+				&& direction == Direction.LEFT) {
+		//	position.x = camPos.x + 64;
 		}
 	}
 
@@ -366,7 +375,7 @@ public class Player extends GameObject {
 		this.dead = dead;
 	}
 
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.health = health;
 	}
 

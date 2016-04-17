@@ -10,53 +10,49 @@ import com.ld35.levels.LevelTwo;
 import com.ld35.levels.TestLevel;
 
 public class LevelManager {
-	private Level [] levels = {
-			new TestLevel(),
-			new LevelTwo(),
-	};
-	
+	private Level[] levels = { new TestLevel(), new LevelTwo(), };
+
 	private int index;
-	
+
 	public static Level getCurrentLevel() {
 		int index = GameManager.levelManager.getLevelIndex();
 		return GameManager.levelManager.getLevels()[index];
 	}
-	
+
 	public LevelManager() {
 		this.index = 0;
 	}
-	
+
 	public void gotoNextLevel(Player player, Camera camera) {
-		if(index != levels.length-1) {
+		if (index != levels.length - 1) {
 			index += 1;
-			Player p2 = player;
+			Player player2 = player;
 			player.reset();
-			player.setY(0);
-			player.setHealth((int)player.getHealth());
+			player.setHealth(player2.getHealth());
 			camera.setPosition(new Vector2f(0, 0));
 		}
 	}
-	
+
 	public void gotoPreviousLevel() {
-		if(index != 0) {
+		if (index != 0) {
 			index -= 1;
 		}
 	}
-	
+
 	public void renderCurrentLevel() {
 		levels[index].draw();
 	}
-	
+
 	public void tick(GameContainer gc, int delta) {
 		levels[index].tick(gc, delta);
 	}
-	
-	public Level [] getLevels() {
+
+	public Level[] getLevels() {
 		return levels;
 	}
-	
+
 	public int getLevelIndex() {
 		return index;
 	}
-	
+
 }
