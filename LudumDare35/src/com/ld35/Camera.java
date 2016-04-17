@@ -3,10 +3,6 @@ package com.ld35;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.ld35.Player.Direction;
-import com.ld35.levels.Level;
-import com.ld35.managers.LevelManager;
-
 public class Camera {
 	private Vector2f position;
 
@@ -31,7 +27,6 @@ public class Camera {
 			velocity.x = 0.4f;
 		} else if (playerPosition.x < this.position.x + offset
 				) {
-			System.out.println("Hello!");
 			velocity.x = -0.4f;
 		} else {
 			velocity.x = 0;

@@ -27,7 +27,7 @@ public class GameManager {
 	private MainMenu mainMenuState;
 	
 	public GameManager() {
-		player = new Player(new Vector2f(0, 480 - 64));
+		player = new Player(new Vector2f(0, 480-64));
 		camera = new Camera(0, 0);
 
 		levelManager = new LevelManager();

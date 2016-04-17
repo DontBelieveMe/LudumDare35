@@ -105,7 +105,7 @@ public class Player extends GameObject {
 		case HUMAN:
 			if (regenerationTick >= shiftHealthDepleteInterval
 					&& health < Player.MAX_HEALTH && !isCollision()) {
-				health += 0.5f;
+				health += 1f;
 				regenerationTick = 0;
 			}
 			tickHuman(gc, delta);
@@ -113,7 +113,7 @@ public class Player extends GameObject {
 		case BIRD:
 			if (regenerationTick >= shiftHealthDepleteInterval
 					&& !isCollision()) {
-				// health -= 3;
+				 health -= 3;
 				regenerationTick = 0;
 			}
 			tickBird(gc, delta);
@@ -419,7 +419,10 @@ public class Player extends GameObject {
 
 	public void reset() {
 		this.state = PlayerState.HUMAN;
-		Vector2f lastCheckpoint = checkpoints.get(checkpoints.size() - 1);
+		Vector2f lastCheckpoint = new Vector2f(0, 480 - 64);
+		if(checkpoints.size() > 0)
+			lastCheckpoint = checkpoints.get(checkpoints.size() - 1);
+		
 		this.position.x = lastCheckpoint.x;
 		this.position.y = lastCheckpoint.y;
 

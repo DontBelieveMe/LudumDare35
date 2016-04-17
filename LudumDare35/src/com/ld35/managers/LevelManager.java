@@ -1,10 +1,8 @@
 package com.ld35.managers;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.Camera;
-import com.ld35.LudumDare35;
 import com.ld35.Player;
 import com.ld35.levels.Level;
 import com.ld35.levels.LevelTwo;
