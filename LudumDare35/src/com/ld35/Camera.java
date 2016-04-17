@@ -30,7 +30,8 @@ public class Camera {
 		if (playerPosition.x > (this.position.x + 480 - offset)) {
 			velocity.x = 0.4f;
 		} else if (playerPosition.x < this.position.x + offset
-				&& player.getDirection() == Direction.LEFT) {
+				) {
+			System.out.println("Hello!");
 			velocity.x = -0.4f;
 		} else {
 			velocity.x = 0;

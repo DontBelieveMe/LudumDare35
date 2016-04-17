@@ -1,5 +1,8 @@
 package com.ld35;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -25,10 +28,14 @@ public class Player extends GameObject {
 	private Image healthBar;
 
 	SpriteSheet player;
-	Image[] images = new Image[2];
+	Image[] humanAnimation = new Image[2];
+	Image[] birdAnimationFrames = new Image[2];
 
 	private Vector2f velocity;
 	Animation animation;
+	Animation birdAnimation;
+	Animation birdAnimationReversed;
+	Animation birdAnimation2;
 
 	private float speed = 0.4f;
 	private float jumpSpeed = 1.6f;
@@ -49,7 +56,7 @@ public class Player extends GameObject {
 	float healthDepleteInterval = 400;
 	float shiftHealthDepleteInterval = 300;
 
-	private Vector2f lastCheckpoint;
+	private List<Vector2f> checkpoints = new ArrayList<Vector2f>();
 
 	public Player(Vector2f position) {
 		super(position);
@@ -61,12 +68,20 @@ public class Player extends GameObject {
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
-		images[0] = player.getSprite(0, 1);
-		images[1] = player.getSprite(1, 1);
-		animation = new Animation(images, 250);
-
-		lastCheckpoint = new Vector2f(0, 480 - 64);
-
+		
+		humanAnimation[0] = player.getSprite(0, 1);
+		humanAnimation[1] = player.getSprite(1, 1);
+		
+		birdAnimationFrames[0] = player.getSprite(0, 3);
+		birdAnimationFrames[1] = player.getSprite(0, 4);
+		
+		Image[] birdAniFrameReversed = { player.getSprite(1, 3), player.getSprite(1, 4) };
+		
+		animation = new Animation(humanAnimation, 250);
+		birdAnimation = new Animation(birdAnimationFrames, 100);
+		birdAnimationReversed = new Animation(birdAniFrameReversed, 100);
+		birdAnimation2 = birdAnimation;
+		
 		GameObjectManager.submit(this);
 	}
 
@@ -98,7 +113,7 @@ public class Player extends GameObject {
 		case BIRD:
 			if (regenerationTick >= shiftHealthDepleteInterval
 					&& !isCollision()) {
-				health -= 3;
+				// health -= 3;
 				regenerationTick = 0;
 			}
 			tickBird(gc, delta);
@@ -114,8 +129,6 @@ public class Player extends GameObject {
 			dead = true;
 		}
 	}
-
-	private boolean jumpDeathStart = false;
 
 	private void tickBird(GameContainer gc, int delta) {
 		Input input = gc.getInput();
@@ -157,6 +170,11 @@ public class Player extends GameObject {
 			position.y = 480 - 32;
 			inAir = false;
 		}
+		
+		if(direction == Direction.RIGHT)
+			birdAnimation2 = birdAnimation;
+		else if(direction == Direction.LEFT) 
+			birdAnimation2 = birdAnimationReversed;
 
 	}
 
@@ -199,11 +217,7 @@ public class Player extends GameObject {
 			position.y = 480 - 32;
 			inAir = false;
 			canJump = true;
-			if (jumpDeathStart)
-				jumpDeathStart = false;
 		}
-
-		System.out.println(lastCheckpoint);
 
 	}
 
@@ -287,17 +301,22 @@ public class Player extends GameObject {
 	}
 
 	boolean saved = false;
-
 	private boolean formSpecificCollisions(boolean xAndY, Tile platformTile) {
 		switch (state) {
 		case HUMAN:
 			if (platformTile.isWarp() && xAndY) {
-				if (!saved) {
+				if (checkpoints.size() != 0) {
+					if (checkpoints.get(checkpoints.size() - 1).lengthSquared() != platformTile
+							.getPosition().lengthSquared()) {
+						AudioManager.playOnce(AudioManager.nextLevel);
+						checkpoints.add(platformTile.getPosition());
+					}
+				} else {
 					AudioManager.playOnce(AudioManager.nextLevel);
-					lastCheckpoint = platformTile.getPosition();
-					saved = true;
-					break;
+					checkpoints.add(platformTile.getPosition());
 				}
+				break;
+
 			}
 			if (platformTile.collidesWith(PlayerState.HUMAN)
 					|| platformTile.isSolid() || platformTile.hurtsHumans()) {
@@ -314,15 +333,16 @@ public class Player extends GameObject {
 			}
 			break;
 		case BIRD:
+			if (platformTile.isWarp() && xAndY) {
+				AudioManager.playOnce(AudioManager.nextLevel);
+				checkpoints.add(platformTile.getPosition());
+				saved = true;
+				break;
+			}
 			if (platformTile.collidesWith(PlayerState.BIRD)
 					|| platformTile.isSolid() || platformTile.hurtsBirds()) {
 				if (xAndY) {
-					if (platformTile.isWarp()) {
-						AudioManager.playOnce(AudioManager.nextLevel);
 
-						lastCheckpoint = position;
-						return false;
-					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsBirds()) {
 						speed /= 3;
@@ -338,7 +358,7 @@ public class Player extends GameObject {
 		}
 		return false;
 	}
-
+	
 	public void draw(Graphics g) {
 		switch (state) {
 		case HUMAN:
@@ -348,7 +368,8 @@ public class Player extends GameObject {
 				g.drawAnimation(animation, position.x, position.y);
 			break;
 		case BIRD:
-			g.fillRect(position.x + 8, position.y + 8, 16, 16);
+			g.drawAnimation(birdAnimation2, position.x, position.y);
+			break;
 		default:
 			break;
 		}
@@ -398,6 +419,7 @@ public class Player extends GameObject {
 
 	public void reset() {
 		this.state = PlayerState.HUMAN;
+		Vector2f lastCheckpoint = checkpoints.get(checkpoints.size() - 1);
 		this.position.x = lastCheckpoint.x;
 		this.position.y = lastCheckpoint.y;
 

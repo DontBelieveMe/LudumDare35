@@ -66,6 +66,7 @@
   <tile id="17">
    <properties>
     <property name="isSolid" value="false"/>
+    <property name="isWarp" value="true"/>
    </properties>
   </tile>
   <tile id="18">
@@ -92,6 +93,7 @@
   <tile id="25">
    <properties>
     <property name="isSolid" value="false"/>
+    <property name="isWarp" value="true"/>
    </properties>
   </tile>
   <tile id="26">
@@ -117,7 +119,7 @@
  </layer>
  <layer name="Platform" width="50" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC81VuwrDMAzUr2XIkEKHFrIU+jEduhQ6JGMh/1pMYxBXSZYfTXpwSyLHd7YuIvKjYyytO2fstzcsH5eNtdRA88Gf31b+MzrgsJJjTx89fXQdE3WeHGk+7uxd5DNbab0+T104j6hxAqIHrW5q5GMAYi9JdVI+alnrQ8MV6rQebJGPR+G6kr7S7k/yIWXDex+4n5Vh9NGT3k8lObfuJ3V3uO9I32cn9bf3m5Yu1LZQ+ywg8Owt5OR8K+T2C67RwH3MDh2hFudIzTlEfSeFAQenrjgXXiTPB2muaHMkldNfMfe/lOIb62OynrgLAAA=
+   H4sIAAAAAAAAC81VuwrDMAzUr2XIkEKHFjr2Yzp0KXRIxkD/NZjGIK6SLD+a5OCWRI7vbF1E5EfHWFp3zdhvb1g+5o211EDzwZ8/Vh4ZHXBYybGnj56+us6JOk+ONB9P9i7yna20Xp+nLpxH1DgC0YNWNzbyMQCxl6Q6KR+1rPWh4Q51Wg+2yMercF1JX2n3J/mQsuG9D9zPyjD66Envp5KcW/eTujvc90a/Zyf1t/ebli7U9qH2WUDg2VvIyflWyO0XXKOB+5gcOkItzpGac4j6LgoDTk5dcS7MJM8Haa5ocySV038x97+U4gKxhhywuAsAAA==
   </data>
  </layer>
 </map>
