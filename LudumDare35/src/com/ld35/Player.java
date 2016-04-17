@@ -11,6 +11,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.ld35.engine.GameObject;
 import com.ld35.engine.Tile;
 import com.ld35.levels.Level;
+import com.ld35.managers.GameManager;
 import com.ld35.managers.GameObjectManager;
 import com.ld35.managers.LevelManager;
 
@@ -32,11 +33,13 @@ public class Player extends GameObject {
 	private Direction direction = Direction.STOPPED;
 	private PlayerState state = PlayerState.HUMAN;
 
-	private int health = 100;
+	public static final int MAX_HEALTH = 100;
+	private int health = MAX_HEALTH;
 	private boolean dead = false;
 	
+	
 	private float timeSinceTick = 0;
-	float healthDepleteInterval = 1000;
+	float healthDepleteInterval = 400;
 
 	
 	public Player(Vector2f position) {
@@ -72,8 +75,13 @@ public class Player extends GameObject {
 		default:
 			break;
 		}
-
+		
 		checkLevelBounds();
+		
+		if(health <= 0) {
+			health = 0;
+			dead = true;
+		}
 	}
 
 	private void tickBird(GameContainer gc, int delta) {
@@ -117,8 +125,7 @@ public class Player extends GameObject {
 			inAir = false;
 		}
 		
-		if(health <= 0) 
-			dead = true;
+		
 	}
 
 	private void tickHuman(GameContainer gc, int delta) {
@@ -247,8 +254,13 @@ public class Player extends GameObject {
 			if (platformTile.collidesWith(PlayerState.HUMAN)
 					|| platformTile.isSolid() || platformTile.hurtsHumans()) {
 				if (xAndY) {
+					if(platformTile.isWarp()) {
+						System.out.println("NEXT!");
+						GameManager.levelManager.gotoNextLevel();
+					}
 					if (timeSinceTick >= healthDepleteInterval 
 							&& platformTile.hurtsHumans()) {
+						speed /= 3;
 						health -= 25;
 						timeSinceTick = 0;
 					}
@@ -258,8 +270,13 @@ public class Player extends GameObject {
 			break;
 		case BIRD:
 			if (platformTile.collidesWith(PlayerState.BIRD)
-					|| platformTile.isSolid()) {
+					|| platformTile.isSolid() || platformTile.hurtsBirds()) {
 				if (xAndY) {
+					if(timeSinceTick >= healthDepleteInterval && platformTile.hurtsBirds()) {
+						speed /= 3;
+						health -= 25;
+						timeSinceTick = 0;
+					}
 					return true;
 				}
 			}
@@ -281,8 +298,9 @@ public class Player extends GameObject {
 		default:
 			break;
 		}
+		
 		g.resetTransform();
-		g.drawString(Integer.toString(health), 100, 10);
+		g.drawString("Health: " + Integer.toString(health), 100, 10);
 	}
 
 	public Vector2f getVelocity() {
@@ -300,4 +318,26 @@ public class Player extends GameObject {
 	public boolean isDead() {
 		return dead;
 	}
+	
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	
+	public void setSpeed(float speed) {
+		this.speed = 0.4f;
+	}
+	
+	public void reset() {
+		this.position.x = 0;
+		this.position.y = 480 - 64;
+		
+		this.health = MAX_HEALTH;
+		this.dead = false;
+		this.speed = 0.4f;
+	}
 }
+

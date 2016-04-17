@@ -41,6 +41,12 @@
     <property name="isSolid" value="false"/>
    </properties>
   </tile>
+  <tile id="9">
+   <properties>
+    <property name="collidesWith" value="bird"/>
+    <property name="isSolid" value="false"/>
+   </properties>
+  </tile>
   <tile id="12">
    <properties>
     <property name="isSolid" value="true"/>
@@ -49,13 +55,20 @@
   <tile id="16">
    <properties>
     <property name="collidesWith" value="human"/>
-    <property name="harmful" value="human"/>
+    <property name="harmful" value="all"/>
     <property name="isSolid" value="false"/>
    </properties>
   </tile>
   <tile id="20">
    <properties>
     <property name="isSolid" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="collidesWith" value="player"/>
+    <property name="isSolid" value="false"/>
+    <property name="isWarp" value="true"/>
    </properties>
   </tile>
   <tile id="28">
@@ -71,7 +84,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFqqKM2GGz20to9jmjYE4rJBa5Qc3xJsJcagFrpypUCez3RMHrYYlNHbjgQoy8WTR2hOKGWvejqiA0ffO5Dt9eVAXf4EnIfurpQLG4jNX6omZ7R/UasveSmK1LDD10PtQDMvEAsmBxz6I0Bje7JqAgHAAA=
+   H4sIAAAAAAAAC2NgIB44ImFqqKM2IGRvJJ3tpXU4OKJhTygmF7hCzfElwV5qAGqlK1cK7PVEw+hhi00dueFAjL5YNHWE4oRa9qKrIzZ88LkP3V5XBtzhS8h96OpCsbiN1PihZnpG9xux9pKbrkgNP3Q91AIw8wKxYBjwIsEcemMA+0/6ewgHAAA=
   </data>
  </layer>
 </map>

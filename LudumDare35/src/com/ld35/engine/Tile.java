@@ -12,8 +12,10 @@ public class Tile {
 
 	private boolean hurtsHumans;
 	private boolean hurtsBirds;
+	
+	private boolean isWarp;
 
-	public Tile(int id, boolean isSolid, Vector2f position, String collidesWith, String harmfulTo) {
+	public Tile(int id, boolean isSolid, Vector2f position, String collidesWith, String harmfulTo, boolean isWarp) {
 		this.id = id;
 		this.isSolid = isSolid;
 		this.position = position;
@@ -29,9 +31,13 @@ public class Tile {
 		} else if(harmfulTo.equalsIgnoreCase("bird")) {
 			this.hurtsBirds = true;
 			this.hurtsHumans = false;
+		} else if(harmfulTo.equalsIgnoreCase("all")) {
+			this.hurtsBirds = true;
+			this.hurtsHumans = true;
 		}
 		
-		System.out.println(this.hurtsHumans);
+		this.isWarp = isWarp;
+		System.out.println(isWarp + ", " + this.id);
 	}
 
 	public boolean isSolid() {
@@ -62,5 +68,8 @@ public class Tile {
 		return hurtsBirds;
 	}
 	
+	public boolean isWarp() {
+		return isWarp;
+	}
 	
 }

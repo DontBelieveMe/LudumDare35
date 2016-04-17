@@ -7,12 +7,12 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.Camera;
 import com.ld35.Player;
+import com.ld35.state.GameOver;
 import com.ld35.state.Pause;
-import com.ld35.state.State;
 
 public class GameManager {
 	public enum GameState {
-		PLAYING, PAUSED
+		PLAYING, PAUSED, GAME_OVER
 	}
 
 	private Player player;
@@ -21,15 +21,26 @@ public class GameManager {
 	public static LevelManager levelManager;
 	private GameState state = GameState.PLAYING;
 
-	private State pauseState = new Pause();
+	private Pause pauseState;
+	private GameOver gameOverState;
 	
 	public GameManager() {
 		player = new Player(new Vector2f(0, 480 - 64));
 		camera = new Camera(0, 0);
 
 		levelManager = new LevelManager();
+		
+		pauseState = new Pause();
+		gameOverState = new GameOver();
 	}
 
+	private void reset() {
+		player.reset();
+		camera.setPosition(new Vector2f(0, 0));
+		gameOverState.requiresReset(false);
+		state = GameState.PLAYING;
+	}
+	
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
@@ -39,7 +50,17 @@ public class GameManager {
 				state = GameState.PLAYING;
 			}
 		}
-
+		
+		
+		if(gameOverState.requiresReset()) {
+			reset();
+		}
+		
+		if(player.isDead()) {
+			state = GameState.GAME_OVER;
+		}
+		
+		
 		switch (state) {
 		case PLAYING:
 			levelManager.tick(gc, delta);
@@ -47,6 +68,9 @@ public class GameManager {
 			break;
 		case PAUSED:
 			pauseState.tick(gc, delta);
+			break;
+		case GAME_OVER:
+			gameOverState.tick(gc, delta);
 			break;
 		default:
 			break;
@@ -62,7 +86,9 @@ public class GameManager {
 			break;
 		case PAUSED:
 			pauseState.render(g);
-
+			break;
+		case GAME_OVER:
+			gameOverState.render(g);
 			break;
 		default:
 			break;

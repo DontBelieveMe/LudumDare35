@@ -9,6 +9,7 @@ import com.ld35.managers.LevelManager;
 
 public class Camera {
 	private Vector2f position;
+
 	private Vector2f velocity;
 
 	public Camera(float x, float y) {
@@ -48,5 +49,9 @@ public class Camera {
 
 	public Vector2f getVelocity() {
 		return velocity;
+	}
+	
+	public void setPosition(Vector2f position) {
+		this.position = position;
 	}
 }

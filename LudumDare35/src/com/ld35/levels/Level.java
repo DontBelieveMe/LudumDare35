@@ -30,13 +30,17 @@ public abstract class Level {
 	
 	public Tile getTileId(int x, int y, int tileLayer) {
 		int id = map.getTileId(x, y, tileLayer);
-		//System.out.println(id);
+		
 		String solid = map.getTileProperty(id, "isSolid", "not-set");
 		boolean isSolid = Boolean.parseBoolean(solid);
+		
+		String warp = map.getTileProperty(id, "isWarp", "not-set");
+		boolean isWarp = Boolean.parseBoolean(warp);
+		
 		String collidesWith = map.getTileProperty(id, "collidesWith", "not-set");
-	//	System.out.println(collidesWith);
 		String hurts = map.getTileProperty(id, "harmful", "not-set");
-		return new Tile(id, isSolid, new Vector2f(x, y), collidesWith, hurts);
+		
+		return new Tile(id, isSolid, new Vector2f(x, y), collidesWith, hurts, isWarp);
 	}
 	
 	public int getWidthInTiles() {
