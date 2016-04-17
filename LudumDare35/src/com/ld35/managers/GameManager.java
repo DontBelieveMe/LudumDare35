@@ -8,21 +8,23 @@ import org.newdawn.slick.geom.Vector2f;
 import com.ld35.Camera;
 import com.ld35.Player;
 import com.ld35.state.GameOver;
+import com.ld35.state.MainMenu;
 import com.ld35.state.Pause;
 
 public class GameManager {
 	public enum GameState {
-		PLAYING, PAUSED, GAME_OVER
+		PLAYING, PAUSED, GAME_OVER, MAIN_MENU
 	}
 
 	private Player player;
 	private Camera camera;
 
 	public static LevelManager levelManager;
-	private GameState state = GameState.PLAYING;
+	private GameState state = GameState.MAIN_MENU;
 
 	private Pause pauseState;
 	private GameOver gameOverState;
+	private MainMenu mainMenuState;
 	
 	public GameManager() {
 		player = new Player(new Vector2f(0, 480 - 64));
@@ -33,6 +35,7 @@ public class GameManager {
 		
 		pauseState = new Pause();
 		gameOverState = new GameOver();
+		mainMenuState = new MainMenu();
 	}
 
 	private void reset() {
@@ -52,9 +55,13 @@ public class GameManager {
 			}
 		}
 		
-		
 		if(gameOverState.requiresReset()) {
 			reset();
+		}
+		
+		if(mainMenuState.start()) {
+			state = GameState.PLAYING;
+			mainMenuState.setStart(false);
 		}
 		
 		if(player.isDead()) {
@@ -73,6 +80,9 @@ public class GameManager {
 		case GAME_OVER:
 			gameOverState.tick(gc, delta);
 			break;
+		case MAIN_MENU:
+			mainMenuState.tick(gc, delta);
+			break;
 		default:
 			break;
 		}
@@ -90,6 +100,9 @@ public class GameManager {
 			break;
 		case GAME_OVER:
 			gameOverState.render(g);
+			break;
+		case MAIN_MENU:
+			mainMenuState.render(g);
 			break;
 		default:
 			break;

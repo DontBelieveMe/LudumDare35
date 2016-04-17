@@ -95,7 +95,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFy1QWRYB+pAJ+9UUAcSWd7iQ0vatgLwp5QTC5whZrjS4K91ADUSFcg4EqBvZ5oGD1ssakjNxyI0ReLpo5QnFDLXnR1xIYPPveh2+vKgDt8CbkPXV0oFreRGj/UTM/ofiPWXnLTFanhh66HWgBmXiAWDANeJJhDbwwAz5VZewgHAAA=
+   H4sIAAAAAAAAC2NgIB44ImFy1QWRYB+pAJ+9UUAcSWd7iQ0vatgLwp5QTC5whZrjS4K91ADUSFcg4EqBvZ5oGD1ssakjNxyI0ReLpo5QnFDLXnR1xIYPPveh2+vKgDt8CbkPXV0oFreRGj/UTM/ofiPWXnLTFanhh66HWgBmXiAODAJeJJhDbwwAYNcG8wgHAAA=
   </data>
  </layer>
 </map>

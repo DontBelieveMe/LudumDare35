@@ -64,7 +64,7 @@ public class Player extends GameObject {
 	public void tick(GameContainer gc, int delta) {
 		timeSinceTick += delta;
 		Input input = gc.getInput();
-		if (input.isKeyPressed(Input.KEY_F)) {
+		if (input.isKeyPressed(Input.KEY_1)) {
 			AudioManager.playOnce(AudioManager.shift);
 			if(state == PlayerState.HUMAN) {
 				state = PlayerState.BIRD;
