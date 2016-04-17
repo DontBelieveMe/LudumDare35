@@ -32,6 +32,13 @@ public class Player extends GameObject {
 	private Direction direction = Direction.STOPPED;
 	private PlayerState state = PlayerState.HUMAN;
 
+	private int health = 100;
+	private boolean dead = false;
+	
+	private float timeSinceTick = 0;
+	float healthDepleteInterval = 1000;
+
+	
 	public Player(Vector2f position) {
 		super(position);
 
@@ -46,7 +53,9 @@ public class Player extends GameObject {
 		GameObjectManager.submit(this);
 	}
 
+
 	public void tick(GameContainer gc, int delta) {
+		timeSinceTick += delta;
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_1))
 			state = PlayerState.HUMAN;
@@ -107,6 +116,9 @@ public class Player extends GameObject {
 			position.y = 480 - 32;
 			inAir = false;
 		}
+		
+		if(health <= 0) 
+			dead = true;
 	}
 
 	private void tickHuman(GameContainer gc, int delta) {
@@ -189,8 +201,8 @@ public class Player extends GameObject {
 		} else if (position.x + 32 > level.getRealWidthInPixels()) {
 			position.x = level.getRealWidthInPixels() - 32;
 		}
-		
-		if(position.y < 0) {
+
+		if (position.y < 0) {
 			position.y = 0;
 		}
 	}
@@ -233,8 +245,13 @@ public class Player extends GameObject {
 		switch (state) {
 		case HUMAN:
 			if (platformTile.collidesWith(PlayerState.HUMAN)
-					|| platformTile.isSolid()) {
+					|| platformTile.isSolid() || platformTile.hurtsHumans()) {
 				if (xAndY) {
+					if (timeSinceTick >= healthDepleteInterval 
+							&& platformTile.hurtsHumans()) {
+						health -= 25;
+						timeSinceTick = 0;
+					}
 					return true;
 				}
 			}
@@ -264,6 +281,8 @@ public class Player extends GameObject {
 		default:
 			break;
 		}
+		g.resetTransform();
+		g.drawString(Integer.toString(health), 100, 10);
 	}
 
 	public Vector2f getVelocity() {
@@ -272,5 +291,13 @@ public class Player extends GameObject {
 
 	public Direction getDirection() {
 		return direction;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+	
+	public boolean isDead() {
+		return dead;
 	}
 }

@@ -1,16 +1,14 @@
 package com.ld35.managers;
 
-import java.awt.Font;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.Camera;
 import com.ld35.Player;
-import com.ld35.engine.Utility;
+import com.ld35.state.Pause;
+import com.ld35.state.State;
 
 public class GameManager {
 	public enum GameState {
@@ -23,6 +21,8 @@ public class GameManager {
 	public static LevelManager levelManager;
 	private GameState state = GameState.PLAYING;
 
+	private State pauseState = new Pause();
+	
 	public GameManager() {
 		player = new Player(new Vector2f(0, 480 - 64));
 		camera = new Camera(0, 0);
@@ -46,9 +46,7 @@ public class GameManager {
 			camera.tick(gc, delta, player);
 			break;
 		case PAUSED:
-			if (input.isKeyPressed(Input.KEY_E)) {
-				gc.exit();
-			}
+			pauseState.tick(gc, delta);
 			break;
 		default:
 			break;
@@ -63,16 +61,7 @@ public class GameManager {
 			levelManager.renderCurrentLevel();
 			break;
 		case PAUSED:
-			Font font2 = Font.decode(Font.SERIF);
-			font2 = font2.deriveFont(24f);
-			TrueTypeFont font = new TrueTypeFont(font2, true);
-			Vector2f centre = Utility.getCenteredTextPos(font, "PAUSED");
-			
-			font.drawString(centre.x,
-					centre.y, "PAUSED");
-			centre = Utility.getCenteredTextPos(font, "Press E to exit");
-			font.drawString(centre.x, centre.y,
-					"Press E to exit.");
+			pauseState.render(g);
 
 			break;
 		default:

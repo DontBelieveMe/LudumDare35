@@ -35,7 +35,8 @@ public abstract class Level {
 		boolean isSolid = Boolean.parseBoolean(solid);
 		String collidesWith = map.getTileProperty(id, "collidesWith", "not-set");
 	//	System.out.println(collidesWith);
-		return new Tile(id, isSolid, new Vector2f(x, y), collidesWith);
+		String hurts = map.getTileProperty(id, "harmful", "not-set");
+		return new Tile(id, isSolid, new Vector2f(x, y), collidesWith, hurts);
 	}
 	
 	public int getWidthInTiles() {

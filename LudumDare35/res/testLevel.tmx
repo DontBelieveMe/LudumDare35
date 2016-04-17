@@ -46,6 +46,13 @@
     <property name="isSolid" value="true"/>
    </properties>
   </tile>
+  <tile id="16">
+   <properties>
+    <property name="collidesWith" value="human"/>
+    <property name="harmful" value="human"/>
+    <property name="isSolid" value="false"/>
+   </properties>
+  </tile>
   <tile id="20">
    <properties>
     <property name="isSolid" value="true"/>
@@ -64,7 +71,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFqqKM2GGz20to9jmjYE4rJBa5Qc3xJsJcagFrpypUCez3RMHrYYlNHbjgQoy8WTR2hOKGWvejqiA0ffO6jZrmBbm8oFreRGj/UTM+wPESqveSmK1zplFg91ALUMg+Xf2iNAeKjL28IBwAA
+   H4sIAAAAAAAAC2NgIB44ImFqqKM2GGz20to9jmjYE4rJBa5Qc3xJsJcagFrpypUCez3RMHrYYlNHbjgQoy8WTR2hOKGWvejqiA0ffO5Dt9eVAXf4EnIfurpQLG4jNX6omZ7R/UasveSmK1LDD10PtQDMvEAsmBxz6I0Bje7JqAgHAAA=
   </data>
  </layer>
 </map>
