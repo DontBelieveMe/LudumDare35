@@ -233,15 +233,16 @@ public class Player extends GameObject {
 
 	private void checkLevelBounds() {
 		Level level = LevelManager.getCurrentLevel();
-		if (position.x < 0) {
-			position.x = 0;
-//		} else if (position.x + 32 > level.getRealWidthInPixels()) {
-//			position.x = level.getRealWidthInPixels() - 32;
+//		if (position.x < 0) {
+//			position.x = 0;
 //		}
-//
-		if (position.y < 0) {
-			position.y = 0f;
-		}
+////		} else if (position.x + 32 > level.getRealWidthInPixels()) {
+////			position.x = level.getRealWidthInPixels() - 32;
+////		}
+////
+//		if (position.y < 0) {
+//			position.y = 0f;
+//		}
 	}
 
 	private boolean isCollision() {
@@ -291,7 +292,6 @@ public class Player extends GameObject {
 					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsHumans()) {
-						System.out.println("Hello!");
 						AudioManager.playOnce(AudioManager.damage);
 						speed /= 3;
 						health -= 50;

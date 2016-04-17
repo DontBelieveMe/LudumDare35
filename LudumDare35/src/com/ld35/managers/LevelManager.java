@@ -29,8 +29,10 @@ public class LevelManager {
 	public void gotoNextLevel(Player player, Camera camera) {
 		if(index != levels.length-1) {
 			index += 1;
-			player.setX(0);
+			Player p2 = player;
+			player.reset();
 			player.setY(0);
+			player.setHealth((int)player.getHealth());
 			camera.setPosition(new Vector2f(0, 0));
 		}
 	}
