@@ -59,6 +59,12 @@
     <property name="isSolid" value="false"/>
    </properties>
   </tile>
+  <tile id="17">
+   <properties>
+    <property name="isSolid" value="false"/>
+    <property name="isWarp" value="true"/>
+   </properties>
+  </tile>
   <tile id="20">
    <properties>
     <property name="isSolid" value="true"/>
@@ -66,7 +72,12 @@
   </tile>
   <tile id="24">
    <properties>
-    <property name="collidesWith" value="player"/>
+    <property name="isSolid" value="false"/>
+    <property name="isWarp" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
     <property name="isSolid" value="false"/>
     <property name="isWarp" value="true"/>
    </properties>
@@ -84,7 +95,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFqqKM2IGRvJJ3tpXU4OKJhTygmF7hCzfElwV5qAGqlK1cK7PVEw+hhi00dueFAjL5YNHWE4oRa9qKrIzZ88LkP3V5XBtzhS8h96OpCsbiN1PihZnpG9xux9pKbrkgNP3Q91AIw8wKxYBjwIsEcemMA+0/6ewgHAAA=
+   H4sIAAAAAAAAC2NgIB44ImFy1QWRYB+pAJ+9UUAcSWd7iQ0vatgLwp5QTC5whZrjS4K91ADUSFcg4EqBvZ5oGD1ssakjNxyI0ReLpo5QnFDLXnR1xIYPPveh2+vKgDt8CbkPXV0oFreRGj/UTM/ofiPWXnLTFanhh66HWgBmXiAWDANeJJhDbwwAz5VZewgHAAA=
   </data>
  </layer>
 </map>
