@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.Camera;
+import com.ld35.LudumDare35;
 import com.ld35.Player;
 import com.ld35.levels.Level;
 import com.ld35.levels.LevelTwo;
@@ -13,23 +14,20 @@ public class LevelManager {
 	private Level[] levels = { new TestLevel(), new LevelTwo(), };
 
 	private int index;
-
+	public Level currentLevel;
 	public static Level getCurrentLevel() {
-		int index = GameManager.levelManager.getLevelIndex();
-		return GameManager.levelManager.getLevels()[index];
+		return GameManager.levelManager.currentLevel;
 	}
 
 	public LevelManager() {
 		this.index = 0;
+		currentLevel = levels[index];
 	}
 
 	public void gotoNextLevel(Player player, Camera camera) {
 		if (index != levels.length - 1) {
 			index += 1;
-			Player player2 = player;
-			player.reset();
-			player.setHealth(player2.getHealth());
-			camera.setPosition(new Vector2f(0, 0));
+			//LudumDare35.gameManager.reset();
 		}
 	}
 

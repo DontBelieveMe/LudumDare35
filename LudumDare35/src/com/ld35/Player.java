@@ -14,7 +14,6 @@ import com.ld35.engine.GameObject;
 import com.ld35.engine.Tile;
 import com.ld35.levels.Level;
 import com.ld35.managers.AudioManager;
-import com.ld35.managers.GameManager;
 import com.ld35.managers.GameObjectManager;
 import com.ld35.managers.LevelManager;
 
@@ -22,7 +21,7 @@ public class Player extends GameObject {
 	public enum Direction {
 		LEFT, RIGHT, STOPPED, UP, DOWN
 	}
-	
+
 	private Image healthBar;
 
 	SpriteSheet player;
@@ -50,6 +49,8 @@ public class Player extends GameObject {
 	float healthDepleteInterval = 400;
 	float shiftHealthDepleteInterval = 300;
 
+	private Vector2f lastCheckpoint;
+
 	public Player(Vector2f position) {
 		super(position);
 
@@ -63,7 +64,9 @@ public class Player extends GameObject {
 		images[0] = player.getSprite(0, 1);
 		images[1] = player.getSprite(1, 1);
 		animation = new Animation(images, 250);
-		
+
+		lastCheckpoint = new Vector2f(0, 480 - 64);
+
 		GameObjectManager.submit(this);
 	}
 
@@ -73,26 +76,28 @@ public class Player extends GameObject {
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_Q)) {
 			AudioManager.playOnce(AudioManager.shift);
-			if(state == PlayerState.HUMAN) {
+			if (state == PlayerState.HUMAN) {
 				state = PlayerState.BIRD;
 			} else {
 				state = PlayerState.HUMAN;
 			}
-		} 
-		
-		if(!isCollision() && speed != 0.4f)
+		}
+
+		if (!isCollision() && speed != 0.4f)
 			speed = 0.4f;
-		
+
 		switch (state) {
 		case HUMAN:
-			if(regenerationTick >= shiftHealthDepleteInterval && health < Player.MAX_HEALTH && !isCollision()) {
+			if (regenerationTick >= shiftHealthDepleteInterval
+					&& health < Player.MAX_HEALTH && !isCollision()) {
 				health += 0.5f;
 				regenerationTick = 0;
 			}
 			tickHuman(gc, delta);
 			break;
 		case BIRD:
-			if(regenerationTick >= shiftHealthDepleteInterval && !isCollision()) {
+			if (regenerationTick >= shiftHealthDepleteInterval
+					&& !isCollision()) {
 				health -= 3;
 				regenerationTick = 0;
 			}
@@ -107,15 +112,6 @@ public class Player extends GameObject {
 		if (health <= 0) {
 			health = 0;
 			dead = true;
-		}
-		
-		Camera camera = LudumDare35.gameManager.getCamera();
-		Vector2f camPos = camera.getPosition();
-		if (position.x > (camPos.x + 480 - 64)) {
-		//	position.x = camPos.x + 480 - 64;
-		} else if (position.x < camPos.x + 64
-				&& direction == Direction.LEFT) {
-		//	position.x = camPos.x + 64;
 		}
 	}
 
@@ -207,6 +203,8 @@ public class Player extends GameObject {
 				jumpDeathStart = false;
 		}
 
+		System.out.println(lastCheckpoint);
+
 	}
 
 	private void checkYCollisions(float oldY) {
@@ -242,16 +240,16 @@ public class Player extends GameObject {
 
 	private void checkLevelBounds() {
 		Level level = LevelManager.getCurrentLevel();
-//		if (position.x < 0) {
-//			position.x = 0;
-//		}
-////		} else if (position.x + 32 > level.getRealWidthInPixels()) {
-////			position.x = level.getRealWidthInPixels() - 32;
-////		}
-////
-//		if (position.y < 0) {
-//			position.y = 0f;
-//		}
+		if (position.x < 0) {
+			position.x = 0;
+
+		} else if (position.x + 32 > level.getRealWidthInPixels()) {
+			position.x = level.getRealWidthInPixels() - 32;
+		}
+
+		if (position.y < 0) {
+			position.y = 0f;
+		}
 	}
 
 	private boolean isCollision() {
@@ -288,17 +286,22 @@ public class Player extends GameObject {
 		return collision;
 	}
 
+	boolean saved = false;
+
 	private boolean formSpecificCollisions(boolean xAndY, Tile platformTile) {
 		switch (state) {
 		case HUMAN:
+			if (platformTile.isWarp() && xAndY) {
+				if (!saved) {
+					AudioManager.playOnce(AudioManager.nextLevel);
+					lastCheckpoint = platformTile.getPosition();
+					saved = true;
+					break;
+				}
+			}
 			if (platformTile.collidesWith(PlayerState.HUMAN)
-					|| platformTile.isSolid() || platformTile.hurtsHumans()
-					|| platformTile.isWarp()) {
+					|| platformTile.isSolid() || platformTile.hurtsHumans()) {
 				if (xAndY) {
-					if (platformTile.isWarp()) {
-						AudioManager.playOnce(AudioManager.nextLevel);
-						GameManager.levelManager.gotoNextLevel(this, LudumDare35.gameManager.getCamera());
-					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsHumans()) {
 						AudioManager.playOnce(AudioManager.damage);
@@ -316,7 +319,9 @@ public class Player extends GameObject {
 				if (xAndY) {
 					if (platformTile.isWarp()) {
 						AudioManager.playOnce(AudioManager.nextLevel);
-						GameManager.levelManager.gotoNextLevel(this, LudumDare35.gameManager.getCamera());
+
+						lastCheckpoint = position;
+						return false;
 					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsBirds()) {
@@ -350,9 +355,9 @@ public class Player extends GameObject {
 
 		g.resetTransform();
 		g.setColor(Color.red);
-		g.fillRect(640 / 2 - 100, 480 - 32+5, health*2, 20);
+		g.fillRect(640 / 2 - 100, 480 - 32 + 5, health * 2, 20);
 		g.setColor(Color.black);
-		g.drawImage(healthBar, 640 / 2 - 100, 480 - 32+5);
+		g.drawImage(healthBar, 640 / 2 - 100, 480 - 32 + 5);
 	}
 
 	public Vector2f getVelocity() {
@@ -382,18 +387,19 @@ public class Player extends GameObject {
 	public void setSpeed(float speed) {
 		this.speed = 0.4f;
 	}
-	
-	public void setX(float x) { 
+
+	public void setX(float x) {
 		this.position.x = x;
 	}
-	
+
 	public void setY(float y) {
 		this.position.y = y;
 	}
-	
+
 	public void reset() {
-		this.position.x = 0;
-		this.position.y = 480 - 64;
+		this.state = PlayerState.HUMAN;
+		this.position.x = lastCheckpoint.x;
+		this.position.y = lastCheckpoint.y;
 
 		this.health = MAX_HEALTH;
 		this.dead = false;

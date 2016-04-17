@@ -26,7 +26,6 @@ public class Camera {
 	public void moveIfNessersary(Player player) {
 		Vector2f playerPosition = player.getPosition();
 		float offset = 64;
-		Level level = LevelManager.getCurrentLevel();
 		
 		if (playerPosition.x > (this.position.x + 480 - offset)) {
 			velocity.x = 0.4f;
@@ -36,10 +35,6 @@ public class Camera {
 		} else {
 			velocity.x = 0;
 		}
-		if (this.position.x <= 0) {
-			this.position.x = 0;
-		} else if(this.position.x + 480 >= level.getRealWidthInPixels()) 
-			this.position.x = level.getRealWidthInPixels() - 480;
 	}
 
 	public Vector2f getPosition() {
@@ -52,5 +47,10 @@ public class Camera {
 	
 	public void setPosition(Vector2f position) {
 		this.position = position;
+	}
+	
+	public void setVelocity(float d) {
+		velocity.x = d;
+		velocity.y = d;
 	}
 }

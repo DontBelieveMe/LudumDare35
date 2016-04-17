@@ -38,7 +38,7 @@ public class GameManager {
 		mainMenuState = new MainMenu();
 	}
 
-	private void reset() {
+	public void reset() {
 		player.reset();
 		camera.setPosition(new Vector2f(0, 0));
 		gameOverState.requiresReset(false);
