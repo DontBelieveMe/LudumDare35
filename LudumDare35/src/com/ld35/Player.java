@@ -15,7 +15,6 @@ import com.ld35.managers.GameObjectManager;
 import com.ld35.managers.LevelManager;
 
 public class Player extends GameObject {
-
 	public enum Direction {
 		LEFT, RIGHT, STOPPED, UP, DOWN
 	}
@@ -64,6 +63,8 @@ public class Player extends GameObject {
 		default:
 			break;
 		}
+
+		checkLevelBounds();
 	}
 
 	private void tickBird(GameContainer gc, int delta) {
@@ -81,6 +82,7 @@ public class Player extends GameObject {
 		}
 
 		if (input.isKeyDown(Input.KEY_SPACE)) {
+			direction = Direction.UP;
 			flyUp();
 		}
 
@@ -180,9 +182,23 @@ public class Player extends GameObject {
 		inAir = true;
 	}
 
+	private void checkLevelBounds() {
+		Level level = LevelManager.getCurrentLevel();
+		if (position.x < 0) {
+			position.x = 0;
+		} else if (position.x + 32 > level.getRealWidthInPixels()) {
+			position.x = level.getRealWidthInPixels() - 32;
+		}
+		
+		if(position.y < 0) {
+			position.y = 0;
+		}
+	}
+
 	private boolean isCollision() {
 		boolean collision = false;
 		Level level = LevelManager.getCurrentLevel();
+
 		for (int x = 0; x < level.getWidthInTiles(); x++) {
 			for (int y = 0; y < level.getHeightInTiles(); y++) {
 				Tile platformTile = LevelManager.getCurrentLevel().getTileId(x,
@@ -197,39 +213,44 @@ public class Player extends GameObject {
 						&& (position.x + 32 > tilePos.x + collisionOffset);
 
 				boolean yCollision;
-				if (state != PlayerState.BIRD) {
-					yCollision = (position.y < tilePos.y + 32 - collisionOffset)
+				if (inAir && platformTile.collidesWith(PlayerState.BIRD)) {
+					yCollision = (position.y < tilePos.y - collisionOffset)
 							&& (position.y + 32 > tilePos.y + collisionOffset);
 				} else {
-					yCollision = (position.y < tilePos.y - collisionOffset)
-							&& (position.y + 32 > tilePos.y + collisionOffset);	
+					yCollision = (position.y < tilePos.y + 32 - collisionOffset)
+							&& (position.y + 32 > tilePos.y + collisionOffset);
 				}
-
-				switch (state) {
-				case HUMAN:
-					if (platformTile.collidesWith(PlayerState.HUMAN)
-							|| platformTile.isSolid()) {
-						if (xCollision && yCollision) {
-							collision = true;
-						}
-					}
-					break;
-				case BIRD:
-					if (platformTile.collidesWith(PlayerState.BIRD)
-							|| platformTile.isSolid()) {
-						if (xCollision && yCollision) {
-							collision = true;
-						}
-					}
-					break;
-				default:
-					break;
-				}
-
+				if (formSpecificCollisions(xCollision && yCollision,
+						platformTile))
+					collision = true;
 			}
 		}
 
 		return collision;
+	}
+
+	private boolean formSpecificCollisions(boolean xAndY, Tile platformTile) {
+		switch (state) {
+		case HUMAN:
+			if (platformTile.collidesWith(PlayerState.HUMAN)
+					|| platformTile.isSolid()) {
+				if (xAndY) {
+					return true;
+				}
+			}
+			break;
+		case BIRD:
+			if (platformTile.collidesWith(PlayerState.BIRD)
+					|| platformTile.isSolid()) {
+				if (xAndY) {
+					return true;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		return false;
 	}
 
 	public void draw(Graphics g) {

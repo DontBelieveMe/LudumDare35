@@ -17,9 +17,7 @@ public class Tile {
 
 		if (collidesWith.equalsIgnoreCase("bird"))
 			this.collidesWith = PlayerState.BIRD;
-
-		System.out.println(this.collidesWith);
-	}
+		}
 
 	public boolean isSolid() {
 		return isSolid;

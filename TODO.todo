@@ -54,4 +54,5 @@ TOOD:
      ☐ If you jumping upwards into the wall the player stays in the wall temporarily @low
      ✔ Sometimes you are not touching the walls when colliding with it @done (16-04-16 21:19)
      ☐ Bird form hovers above ground slightly @low @today
-     ☐ Bird goes through walls @critical @today
+     ✔ Bird goes through walls @critical @today  @done (16-04-17 08:57)
+     ☐ Edge of level collisions
