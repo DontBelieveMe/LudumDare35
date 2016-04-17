@@ -1,93 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="15" tilewidth="32" tileheight="32" nextobjectid="52">
- <tileset firstgid="1" name="Level" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="Level.png" width="256" height="256"/>
-  <tile id="0">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="65" name="Platforms" tilewidth="32" tileheight="32" tilecount="64" columns="8">
-  <image source="Platforms.png" width="256" height="256"/>
-  <tile id="0">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="collidesWith" value="bird"/>
-    <property name="isSolid" value="false"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="collidesWith" value="bird"/>
-    <property name="isSolid" value="false"/>
-   </properties>
-  </tile>
-  <tile id="12">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="16">
-   <properties>
-    <property name="collidesWith" value="human"/>
-    <property name="harmful" value="all"/>
-    <property name="isSolid" value="false"/>
-   </properties>
-  </tile>
-  <tile id="17">
-   <properties>
-    <property name="isSolid" value="false"/>
-    <property name="isWarp" value="true"/>
-   </properties>
-  </tile>
-  <tile id="20">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
-  <tile id="24">
-   <properties>
-    <property name="isSolid" value="false"/>
-    <property name="isWarp" value="true"/>
-   </properties>
-  </tile>
-  <tile id="25">
-   <properties>
-    <property name="isSolid" value="false"/>
-    <property name="isWarp" value="true"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="isSolid" value="true"/>
-   </properties>
-  </tile>
- </tileset>
+ <tileset firstgid="1" source="Level.tsx"/>
+ <tileset firstgid="65" source="Platforms.tsx"/>
  <layer name="Background" width="30" height="15">
   <data encoding="base64" compression="gzip">
    H4sIAAAAAAAAC2NkYGBgHMWjeBSP4lE8ikcoBgASfvrBCAcAAA==
@@ -95,7 +9,7 @@
  </layer>
  <layer name="Platform" width="30" height="15" opacity="0.98">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgIB44ImFy1QWRYB+pAJ+9UUAcSWd7iQ0vatgLwp5QTC5whZrjS4K91ADUSFcg4EqBvZ5oGD1ssakjNxyI0ReLpo5QnFDLXnR1xIYPPveh2+vKgDt8CbkPXV0oFreRGj/UTM/ofiPWXnLTFanhh66HWgBmXiAODAJeJJhDbwwAYNcG8wgHAAA=
+   H4sIAAAAAAAAC2NgIB44ImFy1QWRYB+pAJ+9UQNgL7HhRQ17QdgTiskFrlBzfEmwlxqAGukKBFwpsNcTDaOHLTZ15IYDMfpi0dQRihNq2Yuujtjwwec+dHtdGXCHLyH3oasLxeI2UuOHmukZ3W/E2ktuuiI1/ND1UAvAzAvEgUHAiwRz6I0BuhDXyggHAAA=
   </data>
  </layer>
 </map>

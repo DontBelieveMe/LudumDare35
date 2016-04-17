@@ -235,12 +235,12 @@ public class Player extends GameObject {
 		Level level = LevelManager.getCurrentLevel();
 		if (position.x < 0) {
 			position.x = 0;
-		} else if (position.x + 32 > level.getRealWidthInPixels()) {
-			position.x = level.getRealWidthInPixels() - 32;
-		}
-
+//		} else if (position.x + 32 > level.getRealWidthInPixels()) {
+//			position.x = level.getRealWidthInPixels() - 32;
+//		}
+//
 		if (position.y < 0) {
-			position.y = 0;
+			position.y = 0f;
 		}
 	}
 
@@ -287,7 +287,7 @@ public class Player extends GameObject {
 				if (xAndY) {
 					if (platformTile.isWarp()) {
 						AudioManager.playOnce(AudioManager.nextLevel);
-						GameManager.levelManager.gotoNextLevel();
+						GameManager.levelManager.gotoNextLevel(this, LudumDare35.gameManager.getCamera());
 					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsHumans()) {
@@ -307,7 +307,7 @@ public class Player extends GameObject {
 				if (xAndY) {
 					if (platformTile.isWarp()) {
 						AudioManager.playOnce(AudioManager.nextLevel);
-						GameManager.levelManager.gotoNextLevel();
+						GameManager.levelManager.gotoNextLevel(this, LudumDare35.gameManager.getCamera());
 					}
 					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsBirds()) {
@@ -373,7 +373,15 @@ public class Player extends GameObject {
 	public void setSpeed(float speed) {
 		this.speed = 0.4f;
 	}
-
+	
+	public void setX(float x) { 
+		this.position.x = x;
+	}
+	
+	public void setY(float y) {
+		this.position.y = y;
+	}
+	
 	public void reset() {
 		this.position.x = 0;
 		this.position.y = 480 - 64;

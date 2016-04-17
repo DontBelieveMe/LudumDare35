@@ -113,4 +113,8 @@ public class GameManager {
 	public GameState getState() {
 		return state;
 	}
+	
+	public Camera getCamera() {
+		return camera;
+	}
 }

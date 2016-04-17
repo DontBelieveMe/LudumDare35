@@ -12,7 +12,7 @@ import com.ld35.managers.GameManager.GameState;
 import com.ld35.managers.GameObjectManager;
 
 public class LudumDare35 extends BasicGame{
-	private GameManager gameManager;
+	public static GameManager gameManager;
 	private boolean debug = false;
 	
 	public LudumDare35(String title) {

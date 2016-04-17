@@ -22,6 +22,7 @@ public abstract class GameObject {
 	}
 	
 	public void setPosition(Vector2f position) {
+		System.out.println("HEllo!");
 		this.position = position;
 	}
 	
