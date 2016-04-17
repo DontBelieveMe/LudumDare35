@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.engine.Utility;
+import com.ld35.managers.AudioManager;
 
 public class GameOver extends State{
 	boolean requiresReset = false;
@@ -18,6 +19,7 @@ public class GameOver extends State{
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		if(input.isKeyPressed(Input.KEY_R)) {
+			AudioManager.playOnce(AudioManager.select);
 			requiresReset = true;
 		}
 	}
@@ -28,7 +30,6 @@ public class GameOver extends State{
 		
 		centre = Utility.getCenteredTextPos(slickFont, "Press R to reset!");
 		slickFont.drawString(centre.x, centre.y+64, "Press R to reset!");
-		
 	}
 
 	public boolean requiresReset() {

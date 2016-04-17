@@ -48,6 +48,8 @@ public class GameManager {
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+			AudioManager.playOnce(AudioManager.select);
+
 			if (state == GameState.PLAYING) {
 				state = GameState.PAUSED;
 			} else if (state == GameState.PAUSED) {
@@ -67,7 +69,6 @@ public class GameManager {
 		if(player.isDead()) {
 			state = GameState.GAME_OVER;
 		}
-		
 		
 		switch (state) {
 		case PLAYING:

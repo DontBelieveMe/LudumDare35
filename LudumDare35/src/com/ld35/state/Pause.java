@@ -6,6 +6,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.engine.Utility;
+import com.ld35.managers.AudioManager;
 
 
 public class Pause extends State {
@@ -17,6 +18,7 @@ public class Pause extends State {
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_E)) {
+			AudioManager.playOnce(AudioManager.select);
 			gc.exit();
 		}
 	}

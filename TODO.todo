@@ -8,20 +8,21 @@ TOOD:
       ✔ Walking @done (16-04-16 11:07)
 
     ☐ Player animations @today
-      ☐ Walking @today
-      ☐ Jumping @today
+      ✔ Walking @today  @done (16-04-17 13:31)
+      ✘ Jumping @today  @cancelled (16-04-17 13:46)
       ☐ Flying @today
-      ☐ Idle @today
+      ✔ Idle @today @done (16-04-17 13:46)
 
-    ☐ GUI @today
-      ☐ Menus @today
+    ☐ GUI @today 
+      ✔ Menus @today @done (16-04-17 14:13)
         ✔ Pause Menu @today  @done (16-04-17 11:28)
-        ☐ Main Menu @today
-      ☐ HUD @today
+        ✔ Main Menu @today  @done (16-04-17 14:13)
+      ✔ HUD @today  @done (16-04-17 14:14)
         ✔ Health @today  @done (16-04-17 11:28)
-        ☐ Stamina @today
+        ✘ Stamina @today  @cancelled (16-04-17 14:14)
+        ☐ Health progress bar
 
-    ☐  Game States
+    ✔  Game States  @done (16-04-17 14:14)
       ✔ Pause  @done (16-04-17 11:29)
       ✔ Playing  @done (16-04-17 11:29)
       ✔ Game Over  @done (16-04-17 12:04)
@@ -40,8 +41,8 @@ TOOD:
      ☐ Player Forms @today
        ☐ Bird @today
          ☐ Animation @today
-       ☐ Human @today
-         ☐ Animation @today
+       ✔ Human @today @done (16-04-17 13:46)
+         ✔ Animation @today  @done (16-04-17 13:46)
      ☐ Level design @today
 
      Tiles
@@ -55,7 +56,11 @@ TOOD:
    
    Sound:
      ☐ Soundtrack/music @today
-     ☐ Sound effects @today
+     ☐ Sound effects @today 
+       ✔ Jump  @done (16-04-17 13:47)
+       ✔ Damage  @done (16-04-17 13:47)
+       ✔ Shift form  @done (16-04-17 13:47)
+       ☐ level Transition/New Level
  
    Issues/Tweaks/Notes:
      ✔ Player should only be able to jump once @done (16-04-16 11:36)

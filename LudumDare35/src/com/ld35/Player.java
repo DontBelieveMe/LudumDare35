@@ -14,6 +14,7 @@ import com.ld35.engine.GameObject;
 import com.ld35.engine.Tile;
 import com.ld35.levels.Level;
 import com.ld35.managers.AudioManager;
+import com.ld35.managers.GameManager;
 import com.ld35.managers.GameObjectManager;
 import com.ld35.managers.LevelManager;
 
@@ -21,6 +22,8 @@ public class Player extends GameObject {
 	public enum Direction {
 		LEFT, RIGHT, STOPPED, UP, DOWN
 	}
+	
+	private Image healthBar;
 
 	SpriteSheet player;
 	Image[] images = new Image[2];
@@ -39,11 +42,13 @@ public class Player extends GameObject {
 	private PlayerState state = PlayerState.HUMAN;
 
 	public static final int MAX_HEALTH = 100;
-	private int health = MAX_HEALTH;
+	private float health = MAX_HEALTH;
 	private boolean dead = false;
 
-	private float timeSinceTick = 0;
+	private float platformHealthTick = 0;
+	private float regenerationTick = 0;
 	float healthDepleteInterval = 400;
+	float shiftHealthDepleteInterval = 300;
 
 	public Player(Vector2f position) {
 		super(position);
@@ -51,6 +56,7 @@ public class Player extends GameObject {
 		velocity = new Vector2f(0, 0);
 		try {
 			player = new SpriteSheet("/res/Characters.png", 32, 32);
+			healthBar = new Image("/res/HealthBar.png");
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -62,7 +68,8 @@ public class Player extends GameObject {
 	}
 
 	public void tick(GameContainer gc, int delta) {
-		timeSinceTick += delta;
+		platformHealthTick += delta;
+		regenerationTick += delta;
 		Input input = gc.getInput();
 		if (input.isKeyPressed(Input.KEY_1)) {
 			AudioManager.playOnce(AudioManager.shift);
@@ -78,9 +85,17 @@ public class Player extends GameObject {
 		
 		switch (state) {
 		case HUMAN:
+			if(regenerationTick >= shiftHealthDepleteInterval && health < Player.MAX_HEALTH && !isCollision()) {
+				health += 0.5f;
+				regenerationTick = 0;
+			}
 			tickHuman(gc, delta);
 			break;
 		case BIRD:
+			if(regenerationTick >= shiftHealthDepleteInterval && !isCollision()) {
+				health -= 3;
+				regenerationTick = 0;
+			}
 			tickBird(gc, delta);
 			break;
 		default:
@@ -271,15 +286,16 @@ public class Player extends GameObject {
 					|| platformTile.isWarp()) {
 				if (xAndY) {
 					if (platformTile.isWarp()) {
-						System.out.println("NEXT!");
-						// GameManager.levelManager.gotoNextLevel();
+						AudioManager.playOnce(AudioManager.nextLevel);
+						GameManager.levelManager.gotoNextLevel();
 					}
-					if (timeSinceTick >= healthDepleteInterval
+					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsHumans()) {
+						System.out.println("Hello!");
 						AudioManager.playOnce(AudioManager.damage);
 						speed /= 3;
-						health -= 25;
-						timeSinceTick = 0;
+						health -= 50;
+						platformHealthTick = 0;
 					}
 					return true;
 				}
@@ -289,11 +305,15 @@ public class Player extends GameObject {
 			if (platformTile.collidesWith(PlayerState.BIRD)
 					|| platformTile.isSolid() || platformTile.hurtsBirds()) {
 				if (xAndY) {
-					if (timeSinceTick >= healthDepleteInterval
+					if (platformTile.isWarp()) {
+						AudioManager.playOnce(AudioManager.nextLevel);
+						GameManager.levelManager.gotoNextLevel();
+					}
+					if (platformHealthTick >= healthDepleteInterval
 							&& platformTile.hurtsBirds()) {
 						speed /= 3;
-						health -= 25;
-						timeSinceTick = 0;
+						health -= 50;
+						platformHealthTick = 0;
 					}
 					return true;
 				}
@@ -306,7 +326,6 @@ public class Player extends GameObject {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(Color.red);
 		switch (state) {
 		case HUMAN:
 			if (direction == Direction.STOPPED)
@@ -321,7 +340,10 @@ public class Player extends GameObject {
 		}
 
 		g.resetTransform();
-		g.drawString("Health: " + Integer.toString(health), 100, 10);
+		g.setColor(Color.red);
+		g.fillRect(640 / 2 - 100, 480 - 32+5, health*2, 20);
+		g.setColor(Color.black);
+		g.drawImage(healthBar, 640 / 2 - 100, 480 - 32+5);
 	}
 
 	public Vector2f getVelocity() {
@@ -332,7 +354,7 @@ public class Player extends GameObject {
 		return direction;
 	}
 
-	public int getHealth() {
+	public float getHealth() {
 		return health;
 	}
 

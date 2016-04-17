@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.engine.Utility;
+import com.ld35.managers.AudioManager;
 
 public class MainMenu extends State{
 	private Image title;
@@ -32,6 +33,7 @@ public class MainMenu extends State{
 	public void tick(GameContainer gc, int delta) {
 		Input input = gc.getInput();
 		if(input.isKeyPressed(Input.KEY_SPACE)) {
+			AudioManager.playOnce(AudioManager.select);
 			start = true;
 		}
 	}
