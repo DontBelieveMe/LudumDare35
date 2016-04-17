@@ -252,11 +252,11 @@ public class Player extends GameObject {
 		switch (state) {
 		case HUMAN:
 			if (platformTile.collidesWith(PlayerState.HUMAN)
-					|| platformTile.isSolid() || platformTile.hurtsHumans()) {
+					|| platformTile.isSolid() || platformTile.hurtsHumans() || platformTile.isWarp()) {
 				if (xAndY) {
 					if(platformTile.isWarp()) {
 						System.out.println("NEXT!");
-						GameManager.levelManager.gotoNextLevel();
+						//GameManager.levelManager.gotoNextLevel();
 					}
 					if (timeSinceTick >= healthDepleteInterval 
 							&& platformTile.hurtsHumans()) {

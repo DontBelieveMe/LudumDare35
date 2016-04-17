@@ -22,7 +22,7 @@ public class LevelManager {
 	}
 	
 	public void gotoNextLevel() {
-		if(index != levels.length) {
+		if(index != levels.length-1) {
 			index += 1;
 		}
 	}

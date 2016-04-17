@@ -15,11 +15,17 @@ TOOD:
 
     ☐ GUI @today
       ☐ Menus @today
-        ☐ Pause Menu @today
+        ✔ Pause Menu @today  @done (16-04-17 11:28)
         ☐ Main Menu @today
       ☐ HUD @today
-        ☐ Health @today
+        ✔ Health @today  @done (16-04-17 11:28)
         ☐ Stamina @today
+
+    ☐  Game States
+      ✔ Pause  @done (16-04-17 11:29)
+      ✔ Playing  @done (16-04-17 11:29)
+      ✔ Game Over  @done (16-04-17 12:04)
+      ✔ Reseting @started  @done (16-04-17 12:04)
 
     ✔ Changing between character forms @critical @done (16-04-16 20:25)
     ✔ Collision detection @done (16-04-16 14:49)
@@ -27,13 +33,16 @@ TOOD:
       ✔ Jumping @done (16-04-16 14:50)
     ✔ State Specific Collisions  @done (16-04-16 21:09)
 
+    ✔ Warp's @done (16-04-17 12:28)
+      ☐ Level transitions
+
    Art:
      ☐ Player Forms @today
        ☐ Bird @today
          ☐ Animation @today
        ☐ Human @today
          ☐ Animation @today
-     ☐ Level design tq
+     ☐ Level design @today
 
      Tiles
        ✔ Wall (Stone)  @done (16-04-16 11:24)
@@ -56,3 +65,5 @@ TOOD:
      ☐ Bird form hovers above ground slightly @low @today
      ✔ Bird goes through walls @critical @today  @done (16-04-17 08:57)
      ☐ Edge of level collisions
+         ✔ Left X @done (16-04-17 10:09)
+         ☐ Right X @low

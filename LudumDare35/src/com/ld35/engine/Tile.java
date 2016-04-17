@@ -37,7 +37,6 @@ public class Tile {
 		}
 		
 		this.isWarp = isWarp;
-		System.out.println(isWarp + ", " + this.id);
 	}
 
 	public boolean isSolid() {
