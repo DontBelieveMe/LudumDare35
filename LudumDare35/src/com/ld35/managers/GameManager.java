@@ -29,6 +29,7 @@ public class GameManager {
 		camera = new Camera(0, 0);
 
 		levelManager = new LevelManager();
+		AudioManager.create();
 		
 		pauseState = new Pause();
 		gameOverState = new GameOver();

@@ -1,17 +1,19 @@
 package com.ld35;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.ld35.engine.GameObject;
 import com.ld35.engine.Tile;
 import com.ld35.levels.Level;
-import com.ld35.managers.GameManager;
+import com.ld35.managers.AudioManager;
 import com.ld35.managers.GameObjectManager;
 import com.ld35.managers.LevelManager;
 
@@ -20,8 +22,11 @@ public class Player extends GameObject {
 		LEFT, RIGHT, STOPPED, UP, DOWN
 	}
 
+	SpriteSheet player;
+	Image[] images = new Image[2];
+
 	private Vector2f velocity;
-	private Image image;
+	Animation animation;
 
 	private float speed = 0.4f;
 	private float jumpSpeed = 1.6f;
@@ -36,35 +41,41 @@ public class Player extends GameObject {
 	public static final int MAX_HEALTH = 100;
 	private int health = MAX_HEALTH;
 	private boolean dead = false;
-	
-	
+
 	private float timeSinceTick = 0;
 	float healthDepleteInterval = 400;
 
-	
 	public Player(Vector2f position) {
 		super(position);
 
 		velocity = new Vector2f(0, 0);
-
 		try {
-			image = new Image("/res/Characters.png");
-		} catch (SlickException e) {
-			e.printStackTrace();
+			player = new SpriteSheet("/res/Characters.png", 32, 32);
+		} catch (SlickException e1) {
+			e1.printStackTrace();
 		}
-
+		images[0] = player.getSprite(0, 1);
+		images[1] = player.getSprite(1, 1);
+		animation = new Animation(images, 250);
+		
 		GameObjectManager.submit(this);
 	}
-
 
 	public void tick(GameContainer gc, int delta) {
 		timeSinceTick += delta;
 		Input input = gc.getInput();
-		if (input.isKeyPressed(Input.KEY_1))
-			state = PlayerState.HUMAN;
-		else if (input.isKeyPressed(Input.KEY_2))
-			state = PlayerState.BIRD;
-
+		if (input.isKeyPressed(Input.KEY_F)) {
+			AudioManager.playOnce(AudioManager.shift);
+			if(state == PlayerState.HUMAN) {
+				state = PlayerState.BIRD;
+			} else {
+				state = PlayerState.HUMAN;
+			}
+		} 
+		
+		if(!isCollision() && speed != 0.4f)
+			speed = 0.4f;
+		
 		switch (state) {
 		case HUMAN:
 			tickHuman(gc, delta);
@@ -75,14 +86,16 @@ public class Player extends GameObject {
 		default:
 			break;
 		}
-		
+
 		checkLevelBounds();
-		
-		if(health <= 0) {
+
+		if (health <= 0) {
 			health = 0;
 			dead = true;
 		}
 	}
+
+	private boolean jumpDeathStart = false;
 
 	private void tickBird(GameContainer gc, int delta) {
 		Input input = gc.getInput();
@@ -124,8 +137,7 @@ public class Player extends GameObject {
 			position.y = 480 - 32;
 			inAir = false;
 		}
-		
-		
+
 	}
 
 	private void tickHuman(GameContainer gc, int delta) {
@@ -167,6 +179,8 @@ public class Player extends GameObject {
 			position.y = 480 - 32;
 			inAir = false;
 			canJump = true;
+			if (jumpDeathStart)
+				jumpDeathStart = false;
 		}
 
 	}
@@ -189,6 +203,7 @@ public class Player extends GameObject {
 
 	private void jump() {
 		if (canJump) {
+			AudioManager.playOnce(AudioManager.jump);
 			velocity.y = -jumpSpeed;
 			canJump = false;
 			inAir = true;
@@ -252,14 +267,16 @@ public class Player extends GameObject {
 		switch (state) {
 		case HUMAN:
 			if (platformTile.collidesWith(PlayerState.HUMAN)
-					|| platformTile.isSolid() || platformTile.hurtsHumans() || platformTile.isWarp()) {
+					|| platformTile.isSolid() || platformTile.hurtsHumans()
+					|| platformTile.isWarp()) {
 				if (xAndY) {
-					if(platformTile.isWarp()) {
+					if (platformTile.isWarp()) {
 						System.out.println("NEXT!");
-						//GameManager.levelManager.gotoNextLevel();
+						// GameManager.levelManager.gotoNextLevel();
 					}
-					if (timeSinceTick >= healthDepleteInterval 
+					if (timeSinceTick >= healthDepleteInterval
 							&& platformTile.hurtsHumans()) {
+						AudioManager.playOnce(AudioManager.damage);
 						speed /= 3;
 						health -= 25;
 						timeSinceTick = 0;
@@ -272,7 +289,8 @@ public class Player extends GameObject {
 			if (platformTile.collidesWith(PlayerState.BIRD)
 					|| platformTile.isSolid() || platformTile.hurtsBirds()) {
 				if (xAndY) {
-					if(timeSinceTick >= healthDepleteInterval && platformTile.hurtsBirds()) {
+					if (timeSinceTick >= healthDepleteInterval
+							&& platformTile.hurtsBirds()) {
 						speed /= 3;
 						health -= 25;
 						timeSinceTick = 0;
@@ -291,14 +309,17 @@ public class Player extends GameObject {
 		g.setColor(Color.red);
 		switch (state) {
 		case HUMAN:
-			g.drawImage(image, position.x, position.y);
+			if (direction == Direction.STOPPED)
+				g.drawImage(player.getSprite(0, 0), position.x, position.y);
+			else
+				g.drawAnimation(animation, position.x, position.y);
 			break;
 		case BIRD:
 			g.fillRect(position.x + 8, position.y + 8, 16, 16);
 		default:
 			break;
 		}
-		
+
 		g.resetTransform();
 		g.drawString("Health: " + Integer.toString(health), 100, 10);
 	}
@@ -314,30 +335,29 @@ public class Player extends GameObject {
 	public int getHealth() {
 		return health;
 	}
-	
+
 	public boolean isDead() {
 		return dead;
 	}
-	
+
 	public void setDead(boolean dead) {
 		this.dead = dead;
 	}
-	
+
 	public void setHealth(int health) {
 		this.health = health;
 	}
-	
+
 	public void setSpeed(float speed) {
 		this.speed = 0.4f;
 	}
-	
+
 	public void reset() {
 		this.position.x = 0;
 		this.position.y = 480 - 64;
-		
+
 		this.health = MAX_HEALTH;
 		this.dead = false;
 		this.speed = 0.4f;
 	}
 }
-
